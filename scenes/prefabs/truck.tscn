@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://b02suy3ernvpu"]
+
+[ext_resource type="PackedScene" uid="uid://okdc5golepym" path="res://assets/truck.glb" id="1_2uart"]
+[ext_resource type="Script" path="res://scripts/player/truck_visual.gd" id="2_nvfbd"]
+
+[node name="truck" node_paths=PackedStringArray("fl_wheel", "fr_wheel", "bl_wheel", "br_wheel") instance=ExtResource("1_2uart")]
+script = ExtResource("2_nvfbd")
+fl_wheel = NodePath("Circle")
+fr_wheel = NodePath("Circle_002")
+bl_wheel = NodePath("Circle_003")
+br_wheel = NodePath("Circle_001")
+
+[node name="Circle" parent="." index="1"]
+transform = Transform3D(-4.80602e-08, 1.09949, 0, -1.09949, -4.80602e-08, 0, 0, 0, 1.09949, 0.356106, -0.267886, 0.383676)
+
+[node name="Circle_001" parent="." index="2"]
+transform = Transform3D(-4.80602e-08, 1.09949, 0, -1.09949, -4.80602e-08, 0, 0, 0, 1.09949, 0.356106, -0.267886, -1.70252)
+
+[node name="Circle_002" parent="." index="3"]
+transform = Transform3D(-4.80602e-08, -1.09949, -9.61204e-08, -1.09949, 4.80602e-08, 0, -4.20156e-15, -9.61204e-08, 1.09949, -0.356106, -0.267886, 0.383676)
+
+[node name="Circle_003" parent="." index="4"]
+transform = Transform3D(-4.80602e-08, -1.09949, -9.61204e-08, -1.09949, 4.80602e-08, 0, -4.20156e-15, -9.61204e-08, 1.09949, -0.356106, -0.267886, -1.70252)

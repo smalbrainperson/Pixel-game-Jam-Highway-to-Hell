@@ -1,0 +1,119 @@
+[gd_scene load_steps=12 format=3 uid="uid://d2a11yccuy8si"]
+
+[ext_resource type="Script" path="res://scripts/player/truck.gd" id="1_ebffq"]
+[ext_resource type="Script" path="res://scripts/player/camera.gd" id="2_gvde3"]
+[ext_resource type="PackedScene" uid="uid://b02suy3ernvpu" path="res://scenes/prefabs/truck.tscn" id="2_kubb5"]
+[ext_resource type="Shader" path="res://shaders/pixel_test.gdshader" id="3_kvtou"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j8eha"]
+size = Vector3(1, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0v5q6"]
+size = Vector2(1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vny4c"]
+size = Vector3(1.6, 0.5, 3.3)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qkbyd"]
+sky_top_color = Color(0.87, 0.2755, 0, 1)
+sky_horizon_color = Color(0.613968, 0.333849, 0.447419, 1)
+sky_curve = 0.0568394
+ground_horizon_color = Color(0.615686, 0.333333, 0.447059, 1)
+
+[sub_resource type="Sky" id="Sky_uwjb7"]
+sky_material = SubResource("ProceduralSkyMaterial_qkbyd")
+
+[sub_resource type="Environment" id="Environment_r2q23"]
+background_mode = 2
+sky = SubResource("Sky_uwjb7")
+ambient_light_color = Color(1, 0.892, 0.82, 1)
+ambient_light_sky_contribution = 0.0
+ambient_light_energy = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aiu5r"]
+shader = ExtResource("3_kvtou")
+shader_parameter/pixel_size = 3.0
+shader_parameter/color_range = 32.0
+
+[node name="main" type="Node3D"]
+
+[node name="floor" type="StaticBody3D" parent="."]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, -2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor"]
+shape = SubResource("BoxShape3D_j8eha")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
+mesh = SubResource("PlaneMesh_0v5q6")
+
+[node name="truck" type="VehicleBody3D" parent="." node_paths=PackedStringArray("fl_wheel", "fr_wheel", "bl_wheel", "br_wheel")]
+mass = 500.0
+script = ExtResource("1_ebffq")
+fl_wheel = NodePath("fl wheel")
+fr_wheel = NodePath("fr wheel")
+bl_wheel = NodePath("bl wheel")
+br_wheel = NodePath("br wheel")
+max_rpm = 800.0
+max_torque = 20.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="truck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.96046e-08, -0.25, -0.85)
+shape = SubResource("BoxShape3D_vny4c")
+
+[node name="truck" parent="truck" instance=ExtResource("2_kubb5")]
+
+[node name="fl wheel" type="VehicleWheel3D" parent="truck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.3, 1.375)
+use_as_traction = true
+use_as_steering = true
+wheel_radius = 0.235
+suspension_stiffness = 50.0
+
+[node name="fr wheel" type="VehicleWheel3D" parent="truck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.3, 1.375)
+use_as_traction = true
+use_as_steering = true
+wheel_radius = 0.235
+suspension_stiffness = 50.0
+
+[node name="bl wheel" type="VehicleWheel3D" parent="truck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.3, -0.7)
+use_as_traction = true
+wheel_radius = 0.235
+suspension_stiffness = 50.0
+
+[node name="br wheel" type="VehicleWheel3D" parent="truck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.3, -0.7)
+use_as_traction = true
+wheel_radius = 0.235
+suspension_stiffness = 50.0
+
+[node name="h" type="Node3D" parent="truck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+
+[node name="v" type="Node3D" parent="truck/h"]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="truck/h/v"]
+spring_length = -5.0
+
+[node name="Camera3D" type="Camera3D" parent="truck/h/v/SpringArm3D" node_paths=PackedStringArray("h", "v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0)
+script = ExtResource("2_gvde3")
+h = NodePath("../../..")
+v = NodePath("../..")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_r2q23")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 0.996789, 0.0800773, 0, -0.0800772, 0.996789, 0, 0, 0)
+light_color = Color(1, 0.904167, 0.77, 1)
+light_energy = 6.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_aiu5r")
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
