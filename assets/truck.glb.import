@@ -31,6 +31,33 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={}
+_subresources={
+"materials": {
+"Material": {
+"use_external/enabled": true,
+"use_external/path": "res://shaders/materials/Material.tres"
+},
+"blinkers": {
+"use_external/enabled": true,
+"use_external/path": "res://shaders/materials/blinkers.tres"
+},
+"headlights": {
+"use_external/enabled": true,
+"use_external/path": "res://shaders/materials/headlights.tres"
+},
+"rims": {
+"use_external/enabled": true,
+"use_external/path": "res://shaders/materials/rims.tres"
+},
+"wheels": {
+"use_external/enabled": true,
+"use_external/path": "res://shaders/materials/wheels.tres"
+},
+"window": {
+"use_external/enabled": true,
+"use_external/path": "res://shaders/materials/window.tres"
+}
+}
+}
 gltf/naming_version=1
 gltf/embedded_image_handling=1

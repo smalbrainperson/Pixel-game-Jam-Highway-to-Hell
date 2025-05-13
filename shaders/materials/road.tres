@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://b0c714l031asn"]
+
+[ext_resource type="Texture2D" uid="uid://d2rj3u38x8mfr" path="res://assets/road texture.png" id="1_f4xs5"]
+
+[resource]
+albedo_texture = ExtResource("1_f4xs5")
+uv1_scale = Vector3(0.25, 1, 0.375)
+uv1_triplanar = true

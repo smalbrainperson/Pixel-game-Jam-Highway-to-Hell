@@ -1,9 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://d2a11yccuy8si"]
+[gd_scene load_steps=18 format=3 uid="uid://d2a11yccuy8si"]
 
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_3y3rb"]
 [ext_resource type="Script" path="res://scripts/player/truck.gd" id="1_ebffq"]
 [ext_resource type="Script" path="res://scripts/player/camera.gd" id="2_gvde3"]
 [ext_resource type="PackedScene" uid="uid://b02suy3ernvpu" path="res://scenes/prefabs/truck.tscn" id="2_kubb5"]
 [ext_resource type="Shader" path="res://shaders/pixel_test.gdshader" id="3_kvtou"]
+[ext_resource type="Script" path="res://scripts/road_gen.gd" id="5_ytg76"]
+[ext_resource type="ArrayMesh" uid="uid://cqau2sawiswnw" path="res://assets/barrier.tres" id="6_o2l3q"]
+[ext_resource type="Script" path="res://scripts/barrier_gen.gd" id="6_v7ii4"]
+[ext_resource type="Material" uid="uid://dls5gbxd3elgx" path="res://shaders/materials/truck/barrier.tres" id="7_gpqkb"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j8eha"]
 size = Vector3(1, 0, 1)
@@ -12,13 +17,14 @@ size = Vector3(1, 0, 1)
 size = Vector2(1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vny4c"]
-size = Vector3(1.6, 0.5, 3.3)
+size = Vector3(1.6, 0.5, 3)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qkbyd"]
 sky_top_color = Color(0.87, 0.2755, 0, 1)
 sky_horizon_color = Color(0.613968, 0.333849, 0.447419, 1)
-sky_curve = 0.0568394
+sky_curve = 0.227357
 ground_horizon_color = Color(0.615686, 0.333333, 0.447059, 1)
+ground_curve = 0.0772749
 
 [sub_resource type="Sky" id="Sky_uwjb7"]
 sky_material = SubResource("ProceduralSkyMaterial_qkbyd")
@@ -32,13 +38,16 @@ ambient_light_energy = 0.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_aiu5r"]
 shader = ExtResource("3_kvtou")
-shader_parameter/pixel_size = 3.0
+shader_parameter/pixel_size = 4.0
 shader_parameter/color_range = 32.0
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_esnc5"]
+
 [node name="main" type="Node3D"]
+script = ExtResource("1_3y3rb")
 
 [node name="floor" type="StaticBody3D" parent="."]
-transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, -2, 0)
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, -0.5, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="floor"]
 shape = SubResource("BoxShape3D_j8eha")
@@ -46,18 +55,24 @@ shape = SubResource("BoxShape3D_j8eha")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
 mesh = SubResource("PlaneMesh_0v5q6")
 
-[node name="truck" type="VehicleBody3D" parent="." node_paths=PackedStringArray("fl_wheel", "fr_wheel", "bl_wheel", "br_wheel")]
-mass = 500.0
+[node name="truck" type="VehicleBody3D" parent="." node_paths=PackedStringArray("fl_wheel", "fr_wheel", "bl_wheel", "br_wheel", "death")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1, 0)
+collision_layer = 2
+mass = 1000.0
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, 0.02, -1)
 script = ExtResource("1_ebffq")
 fl_wheel = NodePath("fl wheel")
 fr_wheel = NodePath("fr wheel")
 bl_wheel = NodePath("bl wheel")
 br_wheel = NodePath("br wheel")
-max_rpm = 800.0
-max_torque = 20.0
+death = NodePath("../CanvasLayer/death")
+max_rpm = 1500.0
+max_torque = 12.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="truck"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.96046e-08, -0.25, -0.85)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.96046e-08, 0.05, -0.7)
 shape = SubResource("BoxShape3D_vny4c")
 
 [node name="truck" parent="truck" instance=ExtResource("2_kubb5")]
@@ -66,30 +81,38 @@ shape = SubResource("BoxShape3D_vny4c")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.3, 1.375)
 use_as_traction = true
 use_as_steering = true
+wheel_roll_influence = 0.0
 wheel_radius = 0.235
-suspension_stiffness = 50.0
+suspension_travel = 0.36
+suspension_stiffness = 60.0
 
 [node name="fr wheel" type="VehicleWheel3D" parent="truck"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.3, 1.375)
 use_as_traction = true
 use_as_steering = true
+wheel_roll_influence = 0.0
 wheel_radius = 0.235
-suspension_stiffness = 50.0
+suspension_travel = 0.36
+suspension_stiffness = 60.0
 
 [node name="bl wheel" type="VehicleWheel3D" parent="truck"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.3, -0.7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.3, -1.7)
 use_as_traction = true
+wheel_roll_influence = 0.0
 wheel_radius = 0.235
-suspension_stiffness = 50.0
+suspension_travel = 0.36
+suspension_stiffness = 60.0
 
 [node name="br wheel" type="VehicleWheel3D" parent="truck"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.3, -0.7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.3, -1.7)
 use_as_traction = true
+wheel_roll_influence = 0.0
 wheel_radius = 0.235
-suspension_stiffness = 50.0
+suspension_travel = 0.36
+suspension_stiffness = 60.0
 
 [node name="h" type="Node3D" parent="truck"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -0.5)
 
 [node name="v" type="Node3D" parent="truck/h"]
 
@@ -106,7 +129,7 @@ v = NodePath("../..")
 environment = SubResource("Environment_r2q23")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
-transform = Transform3D(1, 0, 0, 0, 0.996789, 0.0800773, 0, -0.0800772, 0.996789, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.999923, 0.0123741, 0, -0.0123741, 0.999923, 0, 0, 0)
 light_color = Color(1, 0.904167, 0.77, 1)
 light_energy = 6.0
 
@@ -117,3 +140,26 @@ material = SubResource("ShaderMaterial_aiu5r")
 offset_right = 1920.0
 offset_bottom = 1080.0
 mouse_filter = 2
+
+[node name="death" type="ColorRect" parent="CanvasLayer"]
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="road_generator" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+script = ExtResource("5_ytg76")
+mesh = SubResource("PlaneMesh_esnc5")
+
+[node name="barrier_generator_r" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
+script = ExtResource("6_v7ii4")
+roadMaterial = ExtResource("7_gpqkb")
+mesh = ExtResource("6_o2l3q")
+
+[node name="barrier_generator_l" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
+script = ExtResource("6_v7ii4")
+roadMaterial = ExtResource("7_gpqkb")
+mesh = ExtResource("6_o2l3q")

@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://d1sketmht4kp2"]
+
+[resource]
+resource_name = "rims"
+cull_mode = 2
+roughness = 0.75

@@ -5,9 +5,8 @@ extends Node3D
 @export var bl_wheel: MeshInstance3D
 @export var br_wheel: MeshInstance3D
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var main_truck = get_parent()
-	var rpm = (main_truck.fl_wheel.get_rpm() + main_truck.br_wheel.get_rpm()) / 2
 	fl_wheel.rotation.x = main_truck.fl_wheel.rotation.x
 	fr_wheel.rotation.x = main_truck.fr_wheel.rotation.x
 	bl_wheel.rotation.x = main_truck.bl_wheel.rotation.x
