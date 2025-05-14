@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3ytgeqd1bdkw"]
+
+[ext_resource type="PackedScene" uid="uid://jsiaf66s2ld3" path="res://scenes/prefabs/interactable.tscn" id="1_6abji"]
+
+[node name="interactable" instance=ExtResource("1_6abji")]

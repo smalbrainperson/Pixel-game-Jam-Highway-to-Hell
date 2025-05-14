@@ -1,0 +1,2 @@
+class_name interactable
+extends Node3D

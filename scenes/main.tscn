@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://d2a11yccuy8si"]
+[gd_scene load_steps=20 format=3 uid="uid://d2a11yccuy8si"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_3y3rb"]
 [ext_resource type="Script" path="res://scripts/player/truck.gd" id="1_ebffq"]
@@ -9,6 +9,7 @@
 [ext_resource type="ArrayMesh" uid="uid://cqau2sawiswnw" path="res://assets/barrier.tres" id="6_o2l3q"]
 [ext_resource type="Script" path="res://scripts/barrier_gen.gd" id="6_v7ii4"]
 [ext_resource type="Material" uid="uid://dls5gbxd3elgx" path="res://shaders/materials/truck/barrier.tres" id="7_gpqkb"]
+[ext_resource type="PackedScene" uid="uid://d3ytgeqd1bdkw" path="res://scenes/inheritants/interactable.tscn" id="10_jvkjf"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j8eha"]
 size = Vector3(1, 0, 1)
@@ -18,6 +19,9 @@ size = Vector2(1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vny4c"]
 size = Vector3(1.6, 0.5, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0m1lg"]
+size = Vector3(1.6, 1.2, 4)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qkbyd"]
 sky_top_color = Color(0.87, 0.2755, 0, 1)
@@ -55,19 +59,20 @@ shape = SubResource("BoxShape3D_j8eha")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
 mesh = SubResource("PlaneMesh_0v5q6")
 
-[node name="truck" type="VehicleBody3D" parent="." node_paths=PackedStringArray("fl_wheel", "fr_wheel", "bl_wheel", "br_wheel", "death")]
+[node name="truck" type="VehicleBody3D" parent="." node_paths=PackedStringArray("fl_wheel", "fr_wheel", "bl_wheel", "br_wheel", "death", "interact_area")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1, 0)
 collision_layer = 2
 mass = 1000.0
 center_of_mass_mode = 1
-center_of_mass = Vector3(0, 0.02, -1)
+center_of_mass = Vector3(0, 0.01, -1)
 script = ExtResource("1_ebffq")
 fl_wheel = NodePath("fl wheel")
 fr_wheel = NodePath("fr wheel")
 bl_wheel = NodePath("bl wheel")
 br_wheel = NodePath("br wheel")
 death = NodePath("../CanvasLayer/death")
+interact_area = NodePath("interact area")
 max_rpm = 1500.0
 max_torque = 12.0
 
@@ -111,15 +116,23 @@ wheel_radius = 0.235
 suspension_travel = 0.36
 suspension_stiffness = 60.0
 
-[node name="h" type="Node3D" parent="truck"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -0.5)
+[node name="interact area" type="Area3D" parent="truck"]
+collision_layer = 2
+collision_mask = 2
 
-[node name="v" type="Node3D" parent="truck/h"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="truck/interact area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 0.1, -0.7)
+shape = SubResource("BoxShape3D_0m1lg")
 
-[node name="SpringArm3D" type="SpringArm3D" parent="truck/h/v"]
+[node name="h" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1.4, -0.5)
+
+[node name="v" type="Node3D" parent="h"]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="h/v"]
 spring_length = -5.0
 
-[node name="Camera3D" type="Camera3D" parent="truck/h/v/SpringArm3D" node_paths=PackedStringArray("h", "v")]
+[node name="Camera3D" type="Camera3D" parent="h/v/SpringArm3D" node_paths=PackedStringArray("h", "v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0)
 script = ExtResource("2_gvde3")
 h = NodePath("../../..")
@@ -163,3 +176,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
 script = ExtResource("6_v7ii4")
 roadMaterial = ExtResource("7_gpqkb")
 mesh = ExtResource("6_o2l3q")
+
+[node name="interactable" parent="." instance=ExtResource("10_jvkjf")]

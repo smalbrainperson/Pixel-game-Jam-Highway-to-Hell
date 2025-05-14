@@ -5,6 +5,7 @@ extends VehicleBody3D
 @export var bl_wheel: VehicleWheel3D
 @export var br_wheel: VehicleWheel3D
 @export var death: ColorRect
+@export var interact_area: Area3D
 @export var max_rpm: float
 @export var max_torque: float
 
@@ -21,3 +22,4 @@ func _process(delta: float) -> void:
 		death.color.a += 0.02
 	if death.color.a >= 1.0:
 		get_tree().change_scene_to_file("res://scenes/menu/Winner.tscn")
+	
