@@ -1,11 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://dl7v53r4k6msr"]
+[gd_scene load_steps=7 format=3 uid="uid://dl7v53r4k6msr"]
 
-[ext_resource type="Script" path="res://scripts/menu.gd" id="1_gcqrl"]
+[ext_resource type="Script" path="res://scripts/menu/menu.gd" id="1_gcqrl"]
+[ext_resource type="FontFile" uid="uid://difvnfaj0llka" path="res://assets/Pixelify_Sans/static/PixelifySans-SemiBold.ttf" id="2_vq4r8"]
+[ext_resource type="FontFile" uid="uid://ckqd3t1q5ltbe" path="res://assets/Pixelify_Sans/static/PixelifySans-Regular.ttf" id="3_atdy1"]
+[ext_resource type="Shader" path="res://shaders/pixel_test.gdshader" id="4_5bj52"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_mcanr"]
 font_size = 96
 font_color = Color(0, 0, 0, 1)
-outline_size = 12
+outline_size = 16
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2ellt"]
+shader = ExtResource("4_5bj52")
+shader_parameter/pixel_size = 2.0
+shader_parameter/color_range = 32.0
 
 [node name="Menu" type="Node2D"]
 script = ExtResource("1_gcqrl")
@@ -14,8 +22,9 @@ script = ExtResource("1_gcqrl")
 z_index = 1
 layout_mode = 3
 anchors_preset = 0
+offset_top = 48.0
 offset_right = 40.0
-offset_bottom = 40.0
+offset_bottom = 88.0
 
 [node name="Label" type="Label" parent="Control"]
 layout_mode = 2
@@ -23,8 +32,10 @@ offset_left = -412.0
 offset_top = -360.0
 offset_right = 452.0
 offset_bottom = -228.0
+theme_override_fonts/font = ExtResource("2_vq4r8")
 text = "HIGHWAY TO HELL"
 label_settings = SubResource("LabelSettings_mcanr")
+horizontal_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
 layout_mode = 1
@@ -41,16 +52,19 @@ theme_override_constants/separation = 24
 
 [node name="PLAY" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_atdy1")
 theme_override_font_sizes/font_size = 64
 text = "PLAY"
 
 [node name="OPTIONS" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_atdy1")
 theme_override_font_sizes/font_size = 56
 text = "OPTIONS"
 
 [node name="QUIT" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_atdy1")
 theme_override_font_sizes/font_size = 60
 text = "QUIT"
 
@@ -63,6 +77,15 @@ offset_right = 640.0
 offset_bottom = 360.0
 mouse_filter = 2
 color = Color(0.205117, 0.205117, 0.205117, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+z_index = 2
+material = SubResource("ShaderMaterial_2ellt")
+offset_left = -893.0
+offset_top = -550.0
+offset_right = 1027.0
+offset_bottom = 530.0
+mouse_filter = 2
 
 [connection signal="button_up" from="Control/VBoxContainer/PLAY" to="." method="_on_play_button_up"]
 [connection signal="button_up" from="Control/VBoxContainer/OPTIONS" to="." method="_on_options_button_up"]

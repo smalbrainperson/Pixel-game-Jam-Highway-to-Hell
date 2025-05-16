@@ -29,7 +29,7 @@ func generateSegment():
 	segments.append(segment)
 
 func _process(_delta):
-	var player = $"../truck"
+	var player = %truck
 	var playerPos = player.global_transform.origin.x / 0.5
 	var lastSegmentPos = segments[segments.size() - 1].global_transform.origin.x
 	if playerPos > lastSegmentPos - segmentLength * 2.0:

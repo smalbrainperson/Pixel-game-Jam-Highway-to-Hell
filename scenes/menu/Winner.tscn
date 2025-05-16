@@ -1,26 +1,38 @@
-[gd_scene load_steps=6 format=3 uid="uid://ctddpysuekjnl"]
+[gd_scene load_steps=10 format=3 uid="uid://ctddpysuekjnl"]
 
-[ext_resource type="Script" path="res://scripts/winner.gd" id="1_nxy2c"]
+[ext_resource type="Script" path="res://scripts/menu/winner.gd" id="1_nxy2c"]
+[ext_resource type="Shader" path="res://shaders/pixel_test.gdshader" id="2_ea5he"]
+[ext_resource type="FontFile" uid="uid://ckqd3t1q5ltbe" path="res://assets/Pixelify_Sans/static/PixelifySans-Regular.ttf" id="2_oiybp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_wk8wy"]
 font_size = 82
 font_color = Color(0, 0, 0, 1)
-outline_size = 3
+outline_size = 5
 
 [sub_resource type="LabelSettings" id="LabelSettings_2ysib"]
 font_size = 32
 font_color = Color(0, 0, 0, 1)
-outline_size = 2
+outline_size = 4
 
 [sub_resource type="LabelSettings" id="LabelSettings_wd6n2"]
 font_size = 48
 font_color = Color(0, 0, 0, 1)
-outline_size = 3
+outline_size = 5
 
 [sub_resource type="LabelSettings" id="LabelSettings_q0wyt"]
-font_size = 56
+font_size = 72
 font_color = Color(0, 0, 0, 1)
-outline_size = 3
+outline_size = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_fdme7"]
+font_size = 72
+font_color = Color(0, 0, 0, 1)
+outline_size = 5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vdjy2"]
+shader = ExtResource("2_ea5he")
+shader_parameter/pixel_size = 2.0
+shader_parameter/color_range = 32.0
 
 [node name="Winner" type="Node2D"]
 script = ExtResource("1_nxy2c")
@@ -43,10 +55,12 @@ offset_right = 266.0
 offset_bottom = 334.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 42
+theme_override_constants/separation = 24
 
 [node name="Label" type="Label" parent="text 1/VBoxContainer"]
+visible = false
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_oiybp")
 text = "GOOD JOB:"
 label_settings = SubResource("LabelSettings_wk8wy")
 horizontal_alignment = 1
@@ -54,6 +68,7 @@ horizontal_alignment = 1
 [node name="Label2" type="Label" parent="text 1/VBoxContainer"]
 visible = false
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_oiybp")
 text = "YOU CROSSED THE RIVER"
 label_settings = SubResource("LabelSettings_2ysib")
 horizontal_alignment = 1
@@ -61,6 +76,7 @@ horizontal_alignment = 1
 [node name="Label3" type="Label" parent="text 1/VBoxContainer"]
 visible = false
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_oiybp")
 text = "YOU ESCAPED THE DEVIL"
 label_settings = SubResource("LabelSettings_wd6n2")
 horizontal_alignment = 1
@@ -68,19 +84,30 @@ horizontal_alignment = 1
 [node name="Label4" type="Label" parent="text 1/VBoxContainer"]
 visible = false
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_oiybp")
 text = "YOU ARE FREE"
 label_settings = SubResource("LabelSettings_q0wyt")
+horizontal_alignment = 1
+
+[node name="Label5" type="Label" parent="text 1/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_oiybp")
+text = "SCORE:"
+label_settings = SubResource("LabelSettings_fdme7")
 horizontal_alignment = 1
 
 [node name="Button" type="Button" parent="text 1/VBoxContainer"]
 visible = false
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_oiybp")
 theme_override_font_sizes/font_size = 64
 text = "RETURN TO MENU"
 
 [node name="Button2" type="Button" parent="text 1/VBoxContainer"]
 visible = false
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_oiybp")
 theme_override_font_sizes/font_size = 64
 text = "QUIT"
 
@@ -93,6 +120,15 @@ offset_right = 640.0
 offset_bottom = 360.0
 mouse_filter = 2
 color = Color(0.205117, 0.205117, 0.205117, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+z_index = 2
+material = SubResource("ShaderMaterial_vdjy2")
+offset_left = -937.0
+offset_top = -557.0
+offset_right = 983.0
+offset_bottom = 523.0
+mouse_filter = 2
 
 [connection signal="button_up" from="text 1/VBoxContainer/Button" to="." method="_on_button_button_up"]
 [connection signal="button_up" from="text 1/VBoxContainer/Button2" to="." method="_on_button_2_button_up"]

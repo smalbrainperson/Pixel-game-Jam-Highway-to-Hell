@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://c8rtyvymu2u1k"]
+
+[ext_resource type="Script" path="res://scripts/generators/add_health.gd" id="1_7c5e5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dh4kg"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1eydu"]
+transparency = 1
+albedo_color = Color(0.666667, 1, 0.666667, 0.666667)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ufwgg"]
+material = SubResource("StandardMaterial3D_1eydu")
+radius = 0.6
+height = 1.2
+radial_segments = 32
+rings = 16
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_urysc"]
+albedo_color = Color(0.0666666, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ypao6"]
+material = SubResource("StandardMaterial3D_urysc")
+size = Vector3(0.2, 0.2, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p04qc"]
+albedo_color = Color(0.0666667, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7b71h"]
+material = SubResource("StandardMaterial3D_p04qc")
+size = Vector3(0.2, 1, 0.2)
+
+[node name="AddHealth" type="Node3D" node_paths=PackedStringArray("visuals")]
+script = ExtResource("1_7c5e5")
+visuals = NodePath("visuals")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_dh4kg")
+
+[node name="visuals" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="visuals"]
+mesh = SubResource("SphereMesh_ufwgg")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+mesh = SubResource("BoxMesh_ypao6")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000781894, 5.96046e-08, -0.00357056)
+mesh = SubResource("BoxMesh_7b71h")
+skeleton = NodePath("../..")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

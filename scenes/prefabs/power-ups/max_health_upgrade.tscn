@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3 uid="uid://cyx2i7nragm6w"]
+
+[ext_resource type="Script" path="res://scripts/power-ups/max_health_upgrade.gd" id="1_6k5xv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jjgj3"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l7nlt"]
+transparency = 1
+albedo_color = Color(0.901961, 0.498039, 0.607843, 0.666667)
+
+[sub_resource type="SphereMesh" id="SphereMesh_6rlcl"]
+material = SubResource("StandardMaterial3D_l7nlt")
+radius = 0.6
+height = 1.2
+radial_segments = 32
+rings = 16
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1mo05"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pe4dj"]
+material = SubResource("StandardMaterial3D_1mo05")
+size = Vector3(0.2, 0.2, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u5yyw"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_a5e7f"]
+material = SubResource("StandardMaterial3D_u5yyw")
+size = Vector3(0.2, 1, 0.2)
+
+[node name="MaxHealthUpgrade" type="Node3D"]
+script = ExtResource("1_6k5xv")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_jjgj3")
+
+[node name="visuals" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="visuals"]
+mesh = SubResource("SphereMesh_6rlcl")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+mesh = SubResource("BoxMesh_pe4dj")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000781894, 5.96046e-08, -0.00357056)
+mesh = SubResource("BoxMesh_a5e7f")
+skeleton = NodePath("../..")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

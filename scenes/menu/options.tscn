@@ -1,9 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://bgfy16r70mgel"]
+[gd_scene load_steps=5 format=3 uid="uid://bgfy16r70mgel"]
 
-[ext_resource type="Script" path="res://scripts/options.gd" id="1_4j4nd"]
+[ext_resource type="Script" path="res://scripts/menu/options.gd" id="1_4j4nd"]
+[ext_resource type="Shader" path="res://shaders/pixel_test.gdshader" id="2_0lx7g"]
+[ext_resource type="FontFile" uid="uid://ckqd3t1q5ltbe" path="res://assets/Pixelify_Sans/static/PixelifySans-Regular.ttf" id="2_eksb8"]
 
-[node name="Options" type="Node2D"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rlfhb"]
+shader = ExtResource("2_0lx7g")
+shader_parameter/pixel_size = 2.0
+shader_parameter/color_range = 32.0
+
+[node name="Options" type="Node2D" node_paths=PackedStringArray("sfx_volume_slider", "music_volume_slider")]
 script = ExtResource("1_4j4nd")
+sfx_volume_slider = NodePath("ui/Label/volume")
+music_volume_slider = NodePath("ui/Label2/volume")
 
 [node name="ui" type="Control" parent="."]
 z_index = 1
@@ -14,21 +23,44 @@ offset_bottom = 40.0
 
 [node name="Label" type="Label" parent="ui"]
 layout_mode = 0
-offset_left = -620.0
+offset_left = -607.0
 offset_top = -331.0
-offset_right = -580.0
-offset_bottom = -308.0
-theme_override_font_sizes/font_size = 32
-text = "VOLUME"
+offset_right = -372.0
+offset_bottom = -280.0
+theme_override_fonts/font = ExtResource("2_eksb8")
+theme_override_font_sizes/font_size = 42
+text = "SFX VOLUME"
 
 [node name="volume" type="HSlider" parent="ui/Label"]
 layout_mode = 0
-offset_left = 161.0
+offset_left = 252.0
 offset_top = 16.0
-offset_right = 1221.0
+offset_right = 1212.0
 offset_bottom = 32.0
+min_value = -50.0
+max_value = 50.0
 step = 0.25
-value = 100.0
+
+[node name="Label2" type="Label" parent="ui"]
+layout_mode = 0
+offset_left = -627.0
+offset_top = -239.0
+offset_right = -342.0
+offset_bottom = -188.0
+theme_override_fonts/font = ExtResource("2_eksb8")
+theme_override_font_sizes/font_size = 42
+text = "MUSIC VOLUME"
+horizontal_alignment = 1
+
+[node name="volume" type="HSlider" parent="ui/Label2"]
+layout_mode = 0
+offset_left = 302.0
+offset_top = 16.0
+offset_right = 1214.0
+offset_bottom = 32.0
+min_value = -50.0
+max_value = 50.0
+step = 0.25
 
 [node name="Button" type="Button" parent="ui"]
 layout_mode = 0
@@ -36,7 +68,9 @@ offset_left = -640.0
 offset_top = -360.0
 offset_right = -632.0
 offset_bottom = -352.0
+theme_override_font_sizes/font_size = 24
 text = "X"
+flat = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -48,5 +82,15 @@ offset_bottom = 360.0
 mouse_filter = 2
 color = Color(0.205117, 0.205117, 0.205117, 1)
 
+[node name="ColorRect2" type="ColorRect" parent="."]
+z_index = 2
+material = SubResource("ShaderMaterial_rlfhb")
+offset_left = -991.0
+offset_top = -476.0
+offset_right = 929.0
+offset_bottom = 604.0
+mouse_filter = 2
+
 [connection signal="drag_ended" from="ui/Label/volume" to="." method="_on_volume_drag_ended"]
+[connection signal="drag_ended" from="ui/Label2/volume" to="." method="_on_volume_2_drag_ended"]
 [connection signal="button_up" from="ui/Button" to="." method="_on_button_button_up"]

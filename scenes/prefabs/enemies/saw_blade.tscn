@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://bxitviwoa4m3p"]
+
+[ext_resource type="Script" path="res://scripts/enemies/saw_blade.gd" id="1_rocv7"]
+[ext_resource type="Texture2D" uid="uid://dsats1h34junf" path="res://assets/saw_blade.png" id="2_ta6fm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aoh4d"]
+transparency = 2
+alpha_scissor_threshold = 0.04
+alpha_antialiasing_mode = 0
+cull_mode = 2
+shading_mode = 2
+diffuse_mode = 1
+albedo_texture = ExtResource("2_ta6fm")
+detail_mask = ExtResource("2_ta6fm")
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_2rfs0"]
+material = SubResource("StandardMaterial3D_aoh4d")
+size = Vector2(2, 2)
+orientation = 0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x77ik"]
+size = Vector3(0.2, 2, 2)
+
+[node name="SawBlade" type="Node3D" node_paths=PackedStringArray("mesh")]
+script = ExtResource("1_rocv7")
+mesh = NodePath("MeshInstance3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_2rfs0")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_x77ik")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

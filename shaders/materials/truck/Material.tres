@@ -20,3 +20,4 @@ resource_name = "Material"
 cull_mode = 2
 albedo_texture = SubResource("NoiseTexture2D_jfyqj")
 roughness = 0.5
+texture_filter = 0

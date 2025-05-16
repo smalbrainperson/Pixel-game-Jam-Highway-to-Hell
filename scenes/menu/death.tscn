@@ -1,0 +1,110 @@
+[gd_scene load_steps=9 format=3 uid="uid://c3512dgnnwk5a"]
+
+[ext_resource type="Script" path="res://scripts/menu/death.gd" id="1_3o3yu"]
+[ext_resource type="FontFile" uid="uid://dqgg4kpmxhd1d" path="res://assets/Pixelify_Sans/static/PixelifySans-Medium.ttf" id="2_difad"]
+[ext_resource type="Shader" path="res://shaders/pixel_test.gdshader" id="2_ywokc"]
+[ext_resource type="FontFile" uid="uid://ckqd3t1q5ltbe" path="res://assets/Pixelify_Sans/static/PixelifySans-Regular.ttf" id="3_1as8e"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7l7xt"]
+font_size = 72
+font_color = Color(0, 0, 0, 1)
+outline_size = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_38ybq"]
+font_size = 48
+font_color = Color(0, 0, 0, 1)
+outline_size = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_uamw8"]
+font_size = 64
+font_color = Color(0, 0, 0, 1)
+outline_size = 5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qnmui"]
+shader = ExtResource("2_ywokc")
+shader_parameter/pixel_size = 2.0
+shader_parameter/color_range = 32.0
+
+[node name="Death" type="Node2D"]
+script = ExtResource("1_3o3yu")
+
+[node name="Control" type="Control" parent="."]
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 0
+offset_left = -299.0
+offset_top = -307.0
+offset_right = 316.0
+offset_bottom = 238.0
+theme_override_constants/separation = 32
+
+[node name="Label" type="Label" parent="Control/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_difad")
+theme_override_font_sizes/font_size = 32
+text = "YOU DIED"
+label_settings = SubResource("LabelSettings_7l7xt")
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_1as8e")
+theme_override_font_sizes/font_size = 32
+text = "(again)"
+label_settings = SubResource("LabelSettings_38ybq")
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="Control/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_1as8e")
+theme_override_font_sizes/font_size = 32
+text = "THE DEVIL GOT YOU"
+label_settings = SubResource("LabelSettings_uamw8")
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="Control/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_1as8e")
+theme_override_font_sizes/font_size = 32
+text = "SCORE: "
+label_settings = SubResource("LabelSettings_uamw8")
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="Control/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_1as8e")
+theme_override_font_sizes/font_size = 48
+text = "RETURN TO MENU
+"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+color = Color(0.205117, 0.205117, 0.205117, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+z_index = 2
+material = SubResource("ShaderMaterial_qnmui")
+offset_left = -937.0
+offset_top = -517.0
+offset_right = 983.0
+offset_bottom = 563.0
+mouse_filter = 2
+
+[connection signal="button_up" from="Control/VBoxContainer/Button" to="." method="_menu"]

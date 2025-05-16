@@ -1,27 +1,50 @@
-[gd_scene load_steps=20 format=3 uid="uid://d2a11yccuy8si"]
+[gd_scene load_steps=32 format=3 uid="uid://d2a11yccuy8si"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_3y3rb"]
 [ext_resource type="Script" path="res://scripts/player/truck.gd" id="1_ebffq"]
 [ext_resource type="Script" path="res://scripts/player/camera.gd" id="2_gvde3"]
 [ext_resource type="PackedScene" uid="uid://b02suy3ernvpu" path="res://scenes/prefabs/truck.tscn" id="2_kubb5"]
 [ext_resource type="Shader" path="res://shaders/pixel_test.gdshader" id="3_kvtou"]
-[ext_resource type="Script" path="res://scripts/road_gen.gd" id="5_ytg76"]
+[ext_resource type="FontFile" uid="uid://dqgg4kpmxhd1d" path="res://assets/Pixelify_Sans/static/PixelifySans-Medium.ttf" id="4_e0nv6"]
+[ext_resource type="Script" path="res://scripts/generators/road_gen.gd" id="5_ytg76"]
 [ext_resource type="ArrayMesh" uid="uid://cqau2sawiswnw" path="res://assets/barrier.tres" id="6_o2l3q"]
-[ext_resource type="Script" path="res://scripts/barrier_gen.gd" id="6_v7ii4"]
-[ext_resource type="Material" uid="uid://dls5gbxd3elgx" path="res://shaders/materials/truck/barrier.tres" id="7_gpqkb"]
-[ext_resource type="PackedScene" uid="uid://d3ytgeqd1bdkw" path="res://scenes/inheritants/interactable.tscn" id="10_jvkjf"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_j8eha"]
-size = Vector3(1, 0, 1)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_0v5q6"]
-size = Vector2(1, 1)
+[ext_resource type="Script" path="res://scripts/generators/barrier_gen.gd" id="6_v7ii4"]
+[ext_resource type="Material" uid="uid://dls5gbxd3elgx" path="res://shaders/materials/barrier.tres" id="7_gpqkb"]
+[ext_resource type="PackedScene" uid="uid://cxr051qk4yyxe" path="res://scenes/inheritants/interactable.tscn" id="10_jvkjf"]
+[ext_resource type="Script" path="res://scripts/generators/add_health_generator.gd" id="11_gwmww"]
+[ext_resource type="PackedScene" uid="uid://bxitviwoa4m3p" path="res://scenes/prefabs/enemies/saw_blade.tscn" id="11_oplk6"]
+[ext_resource type="Script" path="res://scripts/interactable.gd" id="11_ou32s"]
+[ext_resource type="Script" path="res://scripts/power-ups/upgrade_health_generator.gd" id="13_wfrgc"]
+[ext_resource type="PackedScene" uid="uid://cyx2i7nragm6w" path="res://scenes/prefabs/power-ups/max_health_upgrade.tscn" id="14_0q3td"]
+[ext_resource type="PackedScene" uid="uid://c8rtyvymu2u1k" path="res://scenes/prefabs/power-ups/add_health.tscn" id="14_ea0e1"]
+[ext_resource type="Script" path="res://scripts/generators/saw_blade_generator.gd" id="15_pffxc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vny4c"]
 size = Vector3(1.6, 0.5, 3)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0m1lg"]
 size = Vector3(1.6, 1.2, 4)
+
+[sub_resource type="Gradient" id="Gradient_14ypc"]
+colors = PackedColorArray(1, 0, 0.666667, 1, 1, 0, 0.4, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_30801"]
+gradient = SubResource("Gradient_14ypc")
+width = 32
+
+[sub_resource type="Gradient" id="Gradient_q8cke"]
+colors = PackedColorArray(1, 0, 0.666667, 1, 1, 0, 0.4, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_duyj0"]
+gradient = SubResource("Gradient_q8cke")
+width = 32
+
+[sub_resource type="Gradient" id="Gradient_t5m20"]
+colors = PackedColorArray(0.666667, 0.666667, 0.666667, 0.933333, 0.666667, 0.666667, 0.666667, 0.933333)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_gskhu"]
+gradient = SubResource("Gradient_t5m20")
+width = 32
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qkbyd"]
 sky_top_color = Color(0.87, 0.2755, 0, 1)
@@ -40,7 +63,7 @@ ambient_light_color = Color(1, 0.892, 0.82, 1)
 ambient_light_sky_contribution = 0.0
 ambient_light_energy = 0.5
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_aiu5r"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ogpiv"]
 shader = ExtResource("3_kvtou")
 shader_parameter/pixel_size = 4.0
 shader_parameter/color_range = 32.0
@@ -50,16 +73,7 @@ shader_parameter/color_range = 32.0
 [node name="main" type="Node3D"]
 script = ExtResource("1_3y3rb")
 
-[node name="floor" type="StaticBody3D" parent="."]
-transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, -0.5, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="floor"]
-shape = SubResource("BoxShape3D_j8eha")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
-mesh = SubResource("PlaneMesh_0v5q6")
-
-[node name="truck" type="VehicleBody3D" parent="." node_paths=PackedStringArray("fl_wheel", "fr_wheel", "bl_wheel", "br_wheel", "death", "interact_area")]
+[node name="truck" type="VehicleBody3D" parent="." node_paths=PackedStringArray("fl_wheel", "fr_wheel", "bl_wheel", "br_wheel", "death", "interact_area", "score_count", "texture_rect", "texture_rect_2", "texture_rect_3", "texture_rect_4", "texture_rect_5", "half", "half_2", "half_3", "half_4", "half_5")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1, 0)
 collision_layer = 2
@@ -75,6 +89,17 @@ death = NodePath("../CanvasLayer/death")
 interact_area = NodePath("interact area")
 max_rpm = 1500.0
 max_torque = 12.0
+score_count = NodePath("Label")
+texture_rect = NodePath("health_container/TextureRect")
+texture_rect_2 = NodePath("health_container/TextureRect2")
+texture_rect_3 = NodePath("health_container/TextureRect3")
+texture_rect_4 = NodePath("health_container/TextureRect4")
+texture_rect_5 = NodePath("health_container/TextureRect5")
+half = NodePath("health_container2/half")
+half_2 = NodePath("health_container2/half2")
+half_3 = NodePath("health_container2/half3")
+half_4 = NodePath("health_container2/half4")
+half_5 = NodePath("health_container2/half5")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="truck"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.96046e-08, 0.05, -0.7)
@@ -124,6 +149,71 @@ collision_mask = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 0.1, -0.7)
 shape = SubResource("BoxShape3D_0m1lg")
 
+[node name="health_container" type="HBoxContainer" parent="truck"]
+offset_left = 451.0
+offset_right = 627.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="truck/health_container"]
+z_index = 1
+layout_mode = 2
+texture = SubResource("GradientTexture1D_30801")
+
+[node name="TextureRect2" type="TextureRect" parent="truck/health_container"]
+z_index = 1
+layout_mode = 2
+texture = SubResource("GradientTexture1D_duyj0")
+
+[node name="TextureRect3" type="TextureRect" parent="truck/health_container"]
+z_index = 1
+layout_mode = 2
+texture = SubResource("GradientTexture1D_duyj0")
+
+[node name="TextureRect4" type="TextureRect" parent="truck/health_container"]
+z_index = 1
+layout_mode = 2
+texture = SubResource("GradientTexture1D_duyj0")
+
+[node name="TextureRect5" type="TextureRect" parent="truck/health_container"]
+z_index = 1
+layout_mode = 2
+texture = SubResource("GradientTexture1D_duyj0")
+
+[node name="health_container2" type="HBoxContainer" parent="truck"]
+visible = false
+offset_left = 451.0
+offset_right = 627.0
+offset_bottom = 40.0
+
+[node name="half" type="TextureRect" parent="truck/health_container2"]
+layout_mode = 2
+texture = SubResource("GradientTexture1D_gskhu")
+
+[node name="half2" type="TextureRect" parent="truck/health_container2"]
+layout_mode = 2
+texture = SubResource("GradientTexture1D_gskhu")
+
+[node name="half3" type="TextureRect" parent="truck/health_container2"]
+layout_mode = 2
+texture = SubResource("GradientTexture1D_gskhu")
+
+[node name="half4" type="TextureRect" parent="truck/health_container2"]
+layout_mode = 2
+texture = SubResource("GradientTexture1D_gskhu")
+
+[node name="half5" type="TextureRect" parent="truck/health_container2"]
+layout_mode = 2
+texture = SubResource("GradientTexture1D_gskhu")
+
+[node name="Label" type="Label" parent="truck"]
+offset_left = 641.0
+offset_top = -9.0
+offset_right = 806.0
+offset_bottom = 58.0
+theme_override_fonts/font = ExtResource("4_e0nv6")
+theme_override_font_sizes/font_size = 48
+text = "SCORE:"
+
 [node name="h" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1.4, -0.5)
 
@@ -149,7 +239,8 @@ light_energy = 6.0
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-material = SubResource("ShaderMaterial_aiu5r")
+z_index = 2
+material = SubResource("ShaderMaterial_ogpiv")
 offset_right = 1920.0
 offset_bottom = 1080.0
 mouse_filter = 2
@@ -177,4 +268,20 @@ script = ExtResource("6_v7ii4")
 roadMaterial = ExtResource("7_gpqkb")
 mesh = ExtResource("6_o2l3q")
 
+[node name="add_health_generator" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 4)
+script = ExtResource("11_gwmww")
+add_health_scene = ExtResource("14_ea0e1")
+
+[node name="upgrade_health_generator" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 4)
+script = ExtResource("13_wfrgc")
+scene = ExtResource("14_0q3td")
+
+[node name="saw_blade_generator" type="Node3D" parent="."]
+script = ExtResource("15_pffxc")
+scene = ExtResource("11_oplk6")
+
 [node name="interactable" parent="." instance=ExtResource("10_jvkjf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("11_ou32s")

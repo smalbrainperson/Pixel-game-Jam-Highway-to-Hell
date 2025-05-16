@@ -14,3 +14,5 @@ collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("BoxShape3D_8q5uc")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_truck_area_entered"]
