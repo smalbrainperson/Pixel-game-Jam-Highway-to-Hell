@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://ddpt5akpcsefc"]
+
+[ext_resource type="PackedScene" uid="uid://cpygdmm4xia6p" path="res://assets/models/spikey_boy.glb" id="1_dai3q"]
+
+[sub_resource type="Gradient" id="Gradient_n0355"]
+offsets = PackedFloat32Array(0.183099, 1)
+colors = PackedColorArray(0.235281, 0.144011, 0.00829817, 1, 0.9, 0.6216, 0.378, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_hw2ds"]
+noise_type = 0
+frequency = 0.1137
+fractal_octaves = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jfyqj"]
+height = 128
+color_ramp = SubResource("Gradient_n0355")
+noise = SubResource("FastNoiseLite_hw2ds")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xagha"]
+resource_name = "Material"
+cull_mode = 2
+albedo_texture = SubResource("NoiseTexture2D_jfyqj")
+roughness = 0.5
+uv1_scale = Vector3(0.02, 0.1, 0.1)
+uv1_triplanar = true
+texture_filter = 0
+
+[node name="spikey_boy" instance=ExtResource("1_dai3q")]
+
+[node name="Circle" parent="." index="0"]
+material_override = SubResource("StandardMaterial3D_xagha")

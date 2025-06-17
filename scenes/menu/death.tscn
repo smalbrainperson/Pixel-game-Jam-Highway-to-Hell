@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://c3512dgnnwk5a"]
+[gd_scene load_steps=11 format=3 uid="uid://c3512dgnnwk5a"]
 
 [ext_resource type="Script" path="res://scripts/menu/death.gd" id="1_3o3yu"]
 [ext_resource type="FontFile" uid="uid://dqgg4kpmxhd1d" path="res://assets/Pixelify_Sans/static/PixelifySans-Medium.ttf" id="2_difad"]
 [ext_resource type="Shader" path="res://shaders/pixel_test.gdshader" id="2_ywokc"]
 [ext_resource type="FontFile" uid="uid://ckqd3t1q5ltbe" path="res://assets/Pixelify_Sans/static/PixelifySans-Regular.ttf" id="3_1as8e"]
+[ext_resource type="FontFile" uid="uid://csh5grfh8yukg" path="res://assets/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf" id="4_sgyqu"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7l7xt"]
 font_size = 72
@@ -19,6 +20,11 @@ outline_size = 5
 font_size = 64
 font_color = Color(0, 0, 0, 1)
 outline_size = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_1q7k7"]
+font = ExtResource("4_sgyqu")
+font_size = 24
+font_color = Color(0.724643, 0.724643, 0.724643, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qnmui"]
 shader = ExtResource("2_ywokc")
@@ -87,6 +93,17 @@ theme_override_fonts/font = ExtResource("3_1as8e")
 theme_override_font_sizes/font_size = 48
 text = "RETURN TO MENU
 "
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = -104.0
+offset_top = 329.0
+offset_right = 111.0
+offset_bottom = 359.0
+text = "[ click to proceed ]"
+label_settings = SubResource("LabelSettings_1q7k7")
+horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

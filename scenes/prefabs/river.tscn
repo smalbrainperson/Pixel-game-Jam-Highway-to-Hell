@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://tsfnwobjw6wv"]
+
+[ext_resource type="PackedScene" uid="uid://bll1dhtcc55cp" path="res://assets/models/river.glb" id="1_r2c7h"]
+[ext_resource type="Material" uid="uid://djfg2rinkiiw4" path="res://shaders/materials/terrain.tres" id="2_4ass1"]
+
+[node name="river2" instance=ExtResource("1_r2c7h")]
+
+[node name="river" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_4ass1")

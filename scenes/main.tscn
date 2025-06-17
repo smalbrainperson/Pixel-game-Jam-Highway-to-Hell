@@ -1,23 +1,33 @@
-[gd_scene load_steps=32 format=3 uid="uid://d2a11yccuy8si"]
+[gd_scene load_steps=48 format=3 uid="uid://d2a11yccuy8si"]
 
-[ext_resource type="Script" path="res://scenes/main.gd" id="1_3y3rb"]
 [ext_resource type="Script" path="res://scripts/player/truck.gd" id="1_ebffq"]
 [ext_resource type="Script" path="res://scripts/player/camera.gd" id="2_gvde3"]
 [ext_resource type="PackedScene" uid="uid://b02suy3ernvpu" path="res://scenes/prefabs/truck.tscn" id="2_kubb5"]
 [ext_resource type="Shader" path="res://shaders/pixel_test.gdshader" id="3_kvtou"]
 [ext_resource type="FontFile" uid="uid://dqgg4kpmxhd1d" path="res://assets/Pixelify_Sans/static/PixelifySans-Medium.ttf" id="4_e0nv6"]
 [ext_resource type="Script" path="res://scripts/generators/road_gen.gd" id="5_ytg76"]
-[ext_resource type="ArrayMesh" uid="uid://cqau2sawiswnw" path="res://assets/barrier.tres" id="6_o2l3q"]
+[ext_resource type="ArrayMesh" uid="uid://cqau2sawiswnw" path="res://assets/models/barrier.tres" id="6_o2l3q"]
 [ext_resource type="Script" path="res://scripts/generators/barrier_gen.gd" id="6_v7ii4"]
+[ext_resource type="PackedScene" uid="uid://tsfnwobjw6wv" path="res://scenes/prefabs/river.tscn" id="6_wkpow"]
+[ext_resource type="FontFile" uid="uid://ckqd3t1q5ltbe" path="res://assets/Pixelify_Sans/static/PixelifySans-Regular.ttf" id="7_2ve6w"]
+[ext_resource type="Script" path="res://scripts/menu/pause_menu.gd" id="7_27d6a"]
 [ext_resource type="Material" uid="uid://dls5gbxd3elgx" path="res://shaders/materials/barrier.tres" id="7_gpqkb"]
-[ext_resource type="PackedScene" uid="uid://cxr051qk4yyxe" path="res://scenes/inheritants/interactable.tscn" id="10_jvkjf"]
+[ext_resource type="PackedScene" uid="uid://dtw8wch88ef2y" path="res://scenes/prefabs/enemies/spikey_boy.tscn" id="7_ou67s"]
+[ext_resource type="Shader" path="res://shaders/river.gdshader" id="7_w63k7"]
+[ext_resource type="Script" path="res://scripts/generators/terrain_generator.gd" id="10_apw65"]
 [ext_resource type="Script" path="res://scripts/generators/add_health_generator.gd" id="11_gwmww"]
 [ext_resource type="PackedScene" uid="uid://bxitviwoa4m3p" path="res://scenes/prefabs/enemies/saw_blade.tscn" id="11_oplk6"]
-[ext_resource type="Script" path="res://scripts/interactable.gd" id="11_ou32s"]
+[ext_resource type="Material" uid="uid://djfg2rinkiiw4" path="res://shaders/materials/terrain.tres" id="12_r7hdk"]
 [ext_resource type="Script" path="res://scripts/power-ups/upgrade_health_generator.gd" id="13_wfrgc"]
 [ext_resource type="PackedScene" uid="uid://cyx2i7nragm6w" path="res://scenes/prefabs/power-ups/max_health_upgrade.tscn" id="14_0q3td"]
 [ext_resource type="PackedScene" uid="uid://c8rtyvymu2u1k" path="res://scenes/prefabs/power-ups/add_health.tscn" id="14_ea0e1"]
 [ext_resource type="Script" path="res://scripts/generators/saw_blade_generator.gd" id="15_pffxc"]
+[ext_resource type="Script" path="res://scripts/generators/spikey_boy_generator.gd" id="17_potft"]
+[ext_resource type="Script" path="res://scripts/audio.gd" id="19_40l1k"]
+[ext_resource type="AudioStream" uid="uid://dj4tyyum6tjr7" path="res://assets/sfx/Hit sound.wav" id="19_uac5a"]
+[ext_resource type="PackedScene" uid="uid://bo280mkchb6nm" path="res://scenes/prefabs/enemies/deviled spikes.tscn" id="21_uuio7"]
+[ext_resource type="AudioStream" uid="uid://bfeoxsjmraym8" path="res://assets/sfx/Power up.wav" id="21_x25lf"]
+[ext_resource type="AudioStream" uid="uid://bdw0e8ki74nyc" path="res://assets/sfx/music/vibing in the 20's.mp3" id="24_kbqon"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vny4c"]
 size = Vector3(1.6, 0.5, 3)
@@ -46,6 +56,22 @@ colors = PackedColorArray(0.666667, 0.666667, 0.666667, 0.933333, 0.666667, 0.66
 gradient = SubResource("Gradient_t5m20")
 width = 32
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_afei6"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 15.25
+radial_velocity_min = 1200.0
+radial_velocity_max = 1600.0
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="Gradient" id="Gradient_54lmi"]
+colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tuaas"]
+gradient = SubResource("Gradient_54lmi")
+width = 16
+height = 16
+
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qkbyd"]
 sky_top_color = Color(0.87, 0.2755, 0, 1)
 sky_horizon_color = Color(0.613968, 0.333849, 0.447419, 1)
@@ -63,6 +89,19 @@ ambient_light_color = Color(1, 0.892, 0.82, 1)
 ambient_light_sky_contribution = 0.0
 ambient_light_energy = 0.5
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rbxct"]
+render_priority = 0
+shader = ExtResource("7_w63k7")
+shader_parameter/color1 = Color(0.644719, 0.888671, 0.926226, 1)
+shader_parameter/color2 = Color(0.302914, 0.71772, 0.745443, 1)
+shader_parameter/color3 = Color(0.219516, 0.598491, 0.564479, 1)
+shader_parameter/x_amount = 128.0
+shader_parameter/y_amount = 24.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_kx6d6"]
+material = SubResource("ShaderMaterial_rbxct")
+size = Vector2(128, 24)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ogpiv"]
 shader = ExtResource("3_kvtou")
 shader_parameter/pixel_size = 4.0
@@ -70,10 +109,11 @@ shader_parameter/color_range = 32.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_esnc5"]
 
-[node name="main" type="Node3D"]
-script = ExtResource("1_3y3rb")
+[sub_resource type="PlaneMesh" id="PlaneMesh_bbprn"]
 
-[node name="truck" type="VehicleBody3D" parent="." node_paths=PackedStringArray("fl_wheel", "fr_wheel", "bl_wheel", "br_wheel", "death", "interact_area", "score_count", "texture_rect", "texture_rect_2", "texture_rect_3", "texture_rect_4", "texture_rect_5", "half", "half_2", "half_3", "half_4", "half_5")]
+[node name="main" type="Node3D"]
+
+[node name="truck" type="VehicleBody3D" parent="." node_paths=PackedStringArray("fl_wheel", "fr_wheel", "bl_wheel", "br_wheel", "death", "interact_area", "camera", "score_count", "audio", "texture_rect", "texture_rect_2", "texture_rect_3", "texture_rect_4", "texture_rect_5", "half", "half_2", "half_3", "half_4", "half_5")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1, 0)
 collision_layer = 2
@@ -87,9 +127,11 @@ bl_wheel = NodePath("bl wheel")
 br_wheel = NodePath("br wheel")
 death = NodePath("../CanvasLayer/death")
 interact_area = NodePath("interact area")
+camera = NodePath("../h/v/Camera3D")
 max_rpm = 1500.0
 max_torque = 12.0
 score_count = NodePath("Label")
+audio = NodePath("../audio")
 texture_rect = NodePath("health_container/TextureRect")
 texture_rect_2 = NodePath("health_container/TextureRect2")
 texture_rect_3 = NodePath("health_container/TextureRect3")
@@ -214,19 +256,28 @@ theme_override_fonts/font = ExtResource("4_e0nv6")
 theme_override_font_sizes/font_size = 48
 text = "SCORE:"
 
+[node name="health_1" type="GPUParticles2D" parent="truck"]
+position = Vector2(541, 40)
+emitting = false
+amount = 256
+process_material = SubResource("ParticleProcessMaterial_afei6")
+texture = SubResource("GradientTexture2D_tuaas")
+lifetime = 0.4
+one_shot = true
+
 [node name="h" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1.4, -0.5)
 
 [node name="v" type="Node3D" parent="h"]
 
+[node name="Camera3D" type="Camera3D" parent="h/v" node_paths=PackedStringArray("h", "v")]
+transform = Transform3D(1, -8.74228e-08, 0, 8.74228e-08, 1, 0, 0, 0, -1, 0, 0, -5)
+script = ExtResource("2_gvde3")
+h = NodePath("../..")
+v = NodePath("..")
+
 [node name="SpringArm3D" type="SpringArm3D" parent="h/v"]
 spring_length = -5.0
-
-[node name="Camera3D" type="Camera3D" parent="h/v/SpringArm3D" node_paths=PackedStringArray("h", "v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0)
-script = ExtResource("2_gvde3")
-h = NodePath("../../..")
-v = NodePath("../..")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_r2q23")
@@ -235,6 +286,19 @@ environment = SubResource("Environment_r2q23")
 transform = Transform3D(1, 0, 0, 0, 0.999923, 0.0123741, 0, -0.0123741, 0.999923, 0, 0, 0)
 light_color = Color(1, 0.904167, 0.77, 1)
 light_energy = 6.0
+
+[node name="river" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8192)
+
+[node name="river" parent="river" instance=ExtResource("6_wkpow")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -32, -1, 0)
+
+[node name="river2" parent="river" instance=ExtResource("6_wkpow")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 32, -1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="river"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
+mesh = SubResource("PlaneMesh_kx6d6")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -251,10 +315,55 @@ offset_bottom = 1080.0
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
+[node name="menu" type="Control" parent="CanvasLayer"]
+process_mode = 3
+visible = false
+z_index = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_27d6a")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/menu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -72.0
+offset_top = 265.0
+offset_right = 72.0
+offset_bottom = 417.0
+grow_horizontal = 2
+theme_override_constants/separation = 32
+
+[node name="menu" type="Button" parent="CanvasLayer/menu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_2ve6w")
+theme_override_font_sizes/font_size = 54
+text = "END RUN"
+
+[node name="quit" type="Button" parent="CanvasLayer/menu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_2ve6w")
+theme_override_font_sizes/font_size = 54
+text = "QUIT
+"
+
 [node name="road_generator" type="Node3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("5_ytg76")
 mesh = SubResource("PlaneMesh_esnc5")
+
+[node name="terrain_generator" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -5, 0)
+script = ExtResource("10_apw65")
+segmentWidth = 256.0
+roadMaterial = ExtResource("12_r7hdk")
+numSegments = 1
+mesh = SubResource("PlaneMesh_bbprn")
 
 [node name="barrier_generator_r" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
@@ -282,6 +391,32 @@ scene = ExtResource("14_0q3td")
 script = ExtResource("15_pffxc")
 scene = ExtResource("11_oplk6")
 
-[node name="interactable" parent="." instance=ExtResource("10_jvkjf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-script = ExtResource("11_ou32s")
+[node name="spikey_boy_generator" type="Node3D" parent="."]
+script = ExtResource("17_potft")
+scene = ExtResource("7_ou67s")
+
+[node name="DeviledSpikes" parent="." instance=ExtResource("21_uuio7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -39.2)
+
+[node name="audio" type="Node" parent="."]
+script = ExtResource("19_40l1k")
+
+[node name="hit" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource("19_uac5a")
+volume_db = 5.0
+bus = &"SFX"
+
+[node name="power_up" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource("21_x25lf")
+volume_db = 5.0
+pitch_scale = 1.3
+bus = &"SFX"
+
+[node name="music" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource("24_kbqon")
+volume_db = -12.0
+autoplay = true
+bus = &"Music"
+
+[connection signal="button_up" from="CanvasLayer/menu/VBoxContainer/menu" to="CanvasLayer/menu" method="_on_menu_button_up"]
+[connection signal="button_up" from="CanvasLayer/menu/VBoxContainer/quit" to="CanvasLayer/menu" method="_on_quit_button_up"]

@@ -28,7 +28,7 @@ albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_a5e7f"]
 material = SubResource("StandardMaterial3D_u5yyw")
-size = Vector3(0.2, 1, 0.2)
+size = Vector3(0.2, 0.8, 0.2)
 
 [node name="MaxHealthUpgrade" type="Node3D"]
 script = ExtResource("1_6k5xv")
@@ -47,7 +47,6 @@ mesh = SubResource("SphereMesh_6rlcl")
 skeleton = NodePath("../..")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="visuals"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 mesh = SubResource("BoxMesh_pe4dj")
 skeleton = NodePath("../..")
 

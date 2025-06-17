@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://b02suy3ernvpu"]
+[gd_scene load_steps=4 format=3 uid="uid://b02suy3ernvpu"]
 
-[ext_resource type="PackedScene" uid="uid://okdc5golepym" path="res://assets/truck.glb" id="1_2uart"]
+[ext_resource type="PackedScene" uid="uid://okdc5golepym" path="res://assets/models/truck.glb" id="1_2uart"]
 [ext_resource type="Script" path="res://scripts/player/truck_visual.gd" id="2_nvfbd"]
+[ext_resource type="Material" uid="uid://cbi3nhywthmky" path="res://shaders/materials/truck/Material.tres" id="3_bvsm5"]
 
 [node name="truck" node_paths=PackedStringArray("fl_wheel", "fr_wheel", "bl_wheel", "br_wheel") instance=ExtResource("1_2uart")]
 script = ExtResource("2_nvfbd")
@@ -9,6 +10,9 @@ fl_wheel = NodePath("Circle")
 fr_wheel = NodePath("Circle_002")
 bl_wheel = NodePath("Circle_003")
 br_wheel = NodePath("Circle_001")
+
+[node name="Cube" parent="." index="0"]
+surface_material_override/0 = ExtResource("3_bvsm5")
 
 [node name="Circle" parent="." index="1"]
 transform = Transform3D(-4.80602e-08, 1.09949, 0, -1.09949, -4.80602e-08, 0, 0, 0, 1.09949, 0.356106, -0.267886, 0.383676)

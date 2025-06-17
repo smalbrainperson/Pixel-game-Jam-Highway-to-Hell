@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dj4tyyum6tjr7"
+path="res://.godot/imported/Hit sound.wav-633b0a726ece62a57462835c89b9eca9.sample"
+
+[deps]
+
+source_file="res://assets/sfx/Hit sound.wav"
+dest_files=["res://.godot/imported/Hit sound.wav-633b0a726ece62a57462835c89b9eca9.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

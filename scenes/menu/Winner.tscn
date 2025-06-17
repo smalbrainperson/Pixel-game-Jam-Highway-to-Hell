@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://ctddpysuekjnl"]
+[gd_scene load_steps=12 format=3 uid="uid://ctddpysuekjnl"]
 
 [ext_resource type="Script" path="res://scripts/menu/winner.gd" id="1_nxy2c"]
 [ext_resource type="Shader" path="res://shaders/pixel_test.gdshader" id="2_ea5he"]
 [ext_resource type="FontFile" uid="uid://ckqd3t1q5ltbe" path="res://assets/Pixelify_Sans/static/PixelifySans-Regular.ttf" id="2_oiybp"]
+[ext_resource type="FontFile" uid="uid://csh5grfh8yukg" path="res://assets/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf" id="3_62boa"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_wk8wy"]
 font_size = 82
@@ -28,6 +29,11 @@ outline_size = 5
 font_size = 72
 font_color = Color(0, 0, 0, 1)
 outline_size = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_ki0vi"]
+font = ExtResource("3_62boa")
+font_size = 24
+font_color = Color(0.724643, 0.724643, 0.724643, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vdjy2"]
 shader = ExtResource("2_ea5he")
@@ -110,6 +116,16 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("2_oiybp")
 theme_override_font_sizes/font_size = 64
 text = "QUIT"
+
+[node name="Label" type="Label" parent="text 1"]
+offset_left = -104.0
+offset_top = 329.0
+offset_right = 111.0
+offset_bottom = 359.0
+text = "[ click to proceed ]"
+label_settings = SubResource("LabelSettings_ki0vi")
+horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

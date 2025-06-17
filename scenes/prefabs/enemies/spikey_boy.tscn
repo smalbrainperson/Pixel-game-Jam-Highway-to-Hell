@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dtw8wch88ef2y"]
+
+[ext_resource type="Script" path="res://scripts/enemies/spikey_boy.gd" id="1_eldnd"]
+[ext_resource type="PackedScene" uid="uid://ddpt5akpcsefc" path="res://assets/models/spikey_boy.tscn" id="2_tqhae"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fjs1n"]
+size = Vector3(4, 4.5, 1)
+
+[node name="SpikeyBoy" type="Node3D"]
+script = ExtResource("1_eldnd")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_fjs1n")
+
+[node name="spikey_boy" parent="." instance=ExtResource("2_tqhae")]
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

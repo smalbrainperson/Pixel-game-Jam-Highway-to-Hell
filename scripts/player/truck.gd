@@ -6,9 +6,11 @@ extends VehicleBody3D
 @export var br_wheel: VehicleWheel3D
 @export var death: ColorRect
 @export var interact_area: Area3D
+@export var camera: Camera3D
 @export var max_rpm: float
 @export var max_torque: float
 @export var score_count: Label
+@export var audio: Node
 @export_group("Hearts")
 @export var texture_rect: TextureRect
 @export var texture_rect_2: TextureRect
@@ -20,6 +22,7 @@ extends VehicleBody3D
 @export var half_3: TextureRect
 @export var half_4: TextureRect
 @export var half_5: TextureRect
+@onready var health_1: GPUParticles2D = $health_1
 
 var max_health: int = 3
 var true_max_health: int = 5
@@ -36,17 +39,17 @@ func _process(delta: float) -> void:
 	bl_wheel.engine_force = (accel * max_torque * (1 - rpm / max_rpm))
 	br_wheel.engine_force = (accel * max_torque * (1 - rpm / max_rpm))
 	var win: bool
-	if global_position.z > 168384.0:
+	if global_position.z > 8192.0:
 		win = true
 		death.color.a += 0.02
 	if death.color.a >= 1.0 and win:
 		score += 10000
 		OptionsVar.score = score
 		get_tree().change_scene_to_file("res://scenes/menu/Winner.tscn")
-	_health()
+	_health(delta)
 	score_count.text = "SCORE:" + str(score)
 
-func _health():
+func _health(delta: float) -> void:
 	if max_health > 5:
 		var dash: bool
 		max_health = 5
@@ -59,8 +62,9 @@ func _health():
 		health = 5
 	var dead: bool
 	if health <= 0:
-		death.color.a += 0.02
+		death.color.a += 0.02 * delta/0.0167
 		dead = true
+		audio.dead = true
 		OptionsVar.score = score
 	if death.color.a >= 1.0 and dead:
 		get_tree().change_scene_to_file("res://scenes/menu/death.tscn")
@@ -68,7 +72,7 @@ func _health():
 		health = max_health
 	_hearts()
 
-func _hearts():
+func _hearts() -> void:
 	if health <= 0:
 		texture_rect.hide()
 	if health > 1:
