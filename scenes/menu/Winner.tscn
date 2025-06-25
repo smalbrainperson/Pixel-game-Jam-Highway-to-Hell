@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ctddpysuekjnl"]
+[gd_scene load_steps=15 format=3 uid="uid://ctddpysuekjnl"]
 
 [ext_resource type="Script" path="res://scripts/menu/winner.gd" id="1_nxy2c"]
 [ext_resource type="Shader" path="res://shaders/pixel_test.gdshader" id="2_ea5he"]
@@ -40,10 +40,61 @@ shader = ExtResource("2_ea5he")
 shader_parameter/pixel_size = 2.0
 shader_parameter/color_range = 32.0
 
+[sub_resource type="Animation" id="Animation_76kd3"]
+resource_name = "load"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.205117, 0.205117, 0.205117, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.7),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_animation_finished"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_tyg5q"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.205117, 0.205117, 0.205117, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tcicm"]
+_data = {
+"RESET": SubResource("Animation_tyg5q"),
+"load": SubResource("Animation_76kd3")
+}
+
 [node name="Winner" type="Node2D"]
 script = ExtResource("1_nxy2c")
 
 [node name="text 1" type="Control" parent="."]
+visible = false
 z_index = 1
 layout_mode = 3
 anchors_preset = 0
@@ -118,6 +169,7 @@ theme_override_font_sizes/font_size = 64
 text = "QUIT"
 
 [node name="Label" type="Label" parent="text 1"]
+layout_mode = 0
 offset_left = -104.0
 offset_top = 329.0
 offset_right = 111.0
@@ -138,6 +190,7 @@ mouse_filter = 2
 color = Color(0.205117, 0.205117, 0.205117, 1)
 
 [node name="ColorRect2" type="ColorRect" parent="."]
+visible = false
 z_index = 2
 material = SubResource("ShaderMaterial_vdjy2")
 offset_left = -937.0
@@ -145,6 +198,11 @@ offset_top = -557.0
 offset_right = 983.0
 offset_bottom = 523.0
 mouse_filter = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_tcicm")
+}
 
 [connection signal="button_up" from="text 1/VBoxContainer/Button" to="." method="_on_button_button_up"]
 [connection signal="button_up" from="text 1/VBoxContainer/Button2" to="." method="_on_button_2_button_up"]

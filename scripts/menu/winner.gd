@@ -13,6 +13,8 @@ var visibles: int = 1
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	label_5.text = "SCORE: " + str(OptionsVar.score)
+	$AnimationPlayer.play("load", -1.0, 0.3)
+	
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("proceed"):
@@ -33,6 +35,8 @@ func _process(_delta: float) -> void:
 		button_2.visible = true
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
+func _animation_finished() -> void:
+	$"text 1".visible = true
 
 func _on_button_button_up() -> void:
 	get_tree().change_scene_to_file("res://scenes/menu.tscn")

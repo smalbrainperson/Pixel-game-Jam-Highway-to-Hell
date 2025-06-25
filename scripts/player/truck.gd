@@ -41,7 +41,7 @@ func _process(delta: float) -> void:
 	var win: bool
 	if global_position.z > 8192.0:
 		win = true
-		death.color.a += 0.02
+		death.color += Color.WHITE * 0.01 * (delta/0.0167)
 	if death.color.a >= 1.0 and win:
 		score += 10000
 		OptionsVar.score = score

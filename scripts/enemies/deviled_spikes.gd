@@ -7,7 +7,7 @@ func _process(delta: float) -> void:
 	position.z += 15.0 * delta
 	if dash:
 		if get_parent().get_child(0).name == "truck":
-			get_parent().get_child(0).linear_velocity.z += 24.0 * delta/0.0167
+			get_parent().get_child(0).linear_velocity.z += 24.0
 		dash = false
 
 

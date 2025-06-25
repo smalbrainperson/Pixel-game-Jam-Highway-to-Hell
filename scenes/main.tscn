@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://d2a11yccuy8si"]
+[gd_scene load_steps=46 format=3 uid="uid://d2a11yccuy8si"]
 
 [ext_resource type="Script" path="res://scripts/player/truck.gd" id="1_ebffq"]
 [ext_resource type="Script" path="res://scripts/player/camera.gd" id="2_gvde3"]
@@ -36,25 +36,25 @@ size = Vector3(1.6, 0.5, 3)
 size = Vector3(1.6, 1.2, 4)
 
 [sub_resource type="Gradient" id="Gradient_14ypc"]
-colors = PackedColorArray(1, 0, 0.666667, 1, 1, 0, 0.4, 1)
+offsets = PackedFloat32Array(0.428571, 1)
+colors = PackedColorArray(0.984658, 5.52541e-05, 0.728176, 1, 1, 0, 0.0166664, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_30801"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_25mkw"]
 gradient = SubResource("Gradient_14ypc")
-width = 32
-
-[sub_resource type="Gradient" id="Gradient_q8cke"]
-colors = PackedColorArray(1, 0, 0.666667, 1, 1, 0, 0.4, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_duyj0"]
-gradient = SubResource("Gradient_q8cke")
-width = 32
+width = 48
+height = 48
+fill = 1
+fill_from = Vector2(0.518349, 0.486239)
 
 [sub_resource type="Gradient" id="Gradient_t5m20"]
-colors = PackedColorArray(0.666667, 0.666667, 0.666667, 0.933333, 0.666667, 0.666667, 0.666667, 0.933333)
+colors = PackedColorArray(0.762404, 0.762404, 0.762403, 1, 0.593134, 0.593134, 0.593133, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_gskhu"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_82miw"]
 gradient = SubResource("Gradient_t5m20")
-width = 32
+width = 48
+height = 48
+fill = 1
+fill_from = Vector2(0.454128, 0.481651)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_afei6"]
 particle_flag_disable_z = true
@@ -184,6 +184,7 @@ suspension_travel = 0.36
 suspension_stiffness = 60.0
 
 [node name="interact area" type="Area3D" parent="truck"]
+visible = false
 collision_layer = 2
 collision_mask = 2
 
@@ -192,68 +193,71 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 0.1, -0.7)
 shape = SubResource("BoxShape3D_0m1lg")
 
 [node name="health_container" type="HBoxContainer" parent="truck"]
-offset_left = 451.0
-offset_right = 627.0
-offset_bottom = 40.0
+offset_left = 368.0
+offset_top = 3.0
+offset_right = 624.0
+offset_bottom = 51.0
 
 [node name="TextureRect" type="TextureRect" parent="truck/health_container"]
 z_index = 1
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
-texture = SubResource("GradientTexture1D_30801")
+texture = SubResource("GradientTexture2D_25mkw")
 
 [node name="TextureRect2" type="TextureRect" parent="truck/health_container"]
 z_index = 1
 layout_mode = 2
-texture = SubResource("GradientTexture1D_duyj0")
+texture = SubResource("GradientTexture2D_25mkw")
 
 [node name="TextureRect3" type="TextureRect" parent="truck/health_container"]
 z_index = 1
 layout_mode = 2
-texture = SubResource("GradientTexture1D_duyj0")
+texture = SubResource("GradientTexture2D_25mkw")
 
 [node name="TextureRect4" type="TextureRect" parent="truck/health_container"]
 z_index = 1
 layout_mode = 2
-texture = SubResource("GradientTexture1D_duyj0")
+texture = SubResource("GradientTexture2D_25mkw")
 
 [node name="TextureRect5" type="TextureRect" parent="truck/health_container"]
 z_index = 1
 layout_mode = 2
-texture = SubResource("GradientTexture1D_duyj0")
+texture = SubResource("GradientTexture2D_25mkw")
 
 [node name="health_container2" type="HBoxContainer" parent="truck"]
-visible = false
-offset_left = 451.0
-offset_right = 627.0
-offset_bottom = 40.0
+offset_left = 368.0
+offset_top = 3.0
+offset_right = 624.0
+offset_bottom = 51.0
 
 [node name="half" type="TextureRect" parent="truck/health_container2"]
 layout_mode = 2
-texture = SubResource("GradientTexture1D_gskhu")
+texture = SubResource("GradientTexture2D_82miw")
 
 [node name="half2" type="TextureRect" parent="truck/health_container2"]
 layout_mode = 2
-texture = SubResource("GradientTexture1D_gskhu")
+texture = SubResource("GradientTexture2D_82miw")
 
 [node name="half3" type="TextureRect" parent="truck/health_container2"]
 layout_mode = 2
-texture = SubResource("GradientTexture1D_gskhu")
+texture = SubResource("GradientTexture2D_82miw")
 
 [node name="half4" type="TextureRect" parent="truck/health_container2"]
 layout_mode = 2
-texture = SubResource("GradientTexture1D_gskhu")
+texture = SubResource("GradientTexture2D_82miw")
 
 [node name="half5" type="TextureRect" parent="truck/health_container2"]
 layout_mode = 2
-texture = SubResource("GradientTexture1D_gskhu")
+texture = SubResource("GradientTexture2D_82miw")
 
 [node name="Label" type="Label" parent="truck"]
+z_index = 3
 offset_left = 641.0
 offset_top = -9.0
 offset_right = 806.0
 offset_bottom = 58.0
 theme_override_fonts/font = ExtResource("4_e0nv6")
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 64
 text = "SCORE:"
 
 [node name="health_1" type="GPUParticles2D" parent="truck"]
